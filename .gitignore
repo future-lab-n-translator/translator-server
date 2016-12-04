@@ -1,8 +1,11 @@
 # Ignore Node Modules
 node_modules
 
+# Ignore dist files
+dist
+
 # Ignore dev files
-dev
+.tscache
 
 # Ignore environment variables
 .env
