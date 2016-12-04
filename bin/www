@@ -1,25 +1,42 @@
 #!/usr/bin/env node
 "use strict";
 
-//module dependencies
-var server = require("../dist/server");
-var debug = require("debug")("express:server");
-var http = require("http");
+// cluster module
+var cluster = require("cluster");
 
-//create http server
-var httpPort = normalizePort(process.env.PORT || 8080);
-var app = server.Server.bootstrap().app;
-app.set("port", httpPort);
-var httpServer = http.createServer(app);
+// Code to run if in master process
+if (cluster.isMaster) {
 
-//listen on provided ports
-httpServer.listen(httpPort);
+  // count machine's CPUs
+  var cpuCount = require('os').cpus().length;
 
-//add error handler
-httpServer.on("error", onError);
+  // create worker for each CPUs
+  for (var i = 0; i < cpuCount; i += 1){
+    cluster.fork();
+  }
 
-//start listening on port
-httpServer.on("listening", onListening);
+//Code for each worker process
+} else {
+  //module dependencies
+  var server = require("../dist/server");
+  var debug = require("debug")("express:server");
+  var http = require("http");
+
+  //create http server
+  var httpPort = normalizePort(process.env.PORT || 8080);
+  var app = server.Server.bootstrap().app;
+  app.set("port", httpPort);
+  var httpServer = http.createServer(app);
+
+  //listen on provided ports
+  httpServer.listen(httpPort);
+
+  //add error handler
+  httpServer.on("error", onError);
+
+  //start listening on port
+  httpServer.on("listening", onListening);
+}
 
 /** 
  * Normalize a port into a number, string, or false.
