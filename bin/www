@@ -14,8 +14,7 @@ if (cluster.isMaster) {
   for (var i = 0; i < cpuCount; i += 1){
     cluster.fork();
   }
-
-//Code for each worker process
+  
 } else {
   //module dependencies
   var server = require("../dist/server");
