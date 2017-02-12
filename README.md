@@ -1,4 +1,4 @@
-# echo-server
+# translator-server
 
 Using typescript to prevent run time errors and using grunt for typescript compliation into Javascript.
 After cloning repository,
