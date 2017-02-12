@@ -11,7 +11,7 @@ export const detectLanguage = (inputObj, callback) => {
 
   const queryStringObj = {
       q: inputObj.q,
-      key: 'AIzaSyDG_xmvkkjA3GB6Hx_iwMYv7TBHBWPGkM8'
+      key: ''
   };
   
   request({
@@ -30,7 +30,7 @@ export const translateLanguage = (inputObj, source, callback) => {
     console.log('hello', inputObj);
     const queryStringObj = {
         q: inputObj.q,
-        key: 'AIzaSyDG_xmvkkjA3GB6Hx_iwMYv7TBHBWPGkM8',
+        key: '',
         target: inputObj.target,
         source: source
     };
