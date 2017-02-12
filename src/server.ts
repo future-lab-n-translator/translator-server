@@ -6,7 +6,6 @@ import * as path from "path";
 import errorHandler = require("errorhandler");
 import methodOverride = require("method-override");
 import { IndexRoute } from "./routes/index";
-import { TestRoute } from "./routes/test";
 
 /**
  * The server.
@@ -61,7 +60,7 @@ export class Server {
         this.app.use(express.static(path.join(__dirname, "public")));
 
         //configure pug
-        this.app.set("views", path.join(__dirname, "views"));
+        this.app.set("views", path.join(__dirname, "../views"));
         this.app.set("view engine", "pug");
 
         //use logger middleware
@@ -100,9 +99,6 @@ export class Server {
 
         //IndexRoute
         IndexRoute.create(router);
-
-        //TestRoute
-        TestRoute.create(router);
 
         //use router middleware
         this.app.use(router);

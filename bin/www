@@ -20,6 +20,7 @@ if (cluster.isMaster) {
   var server = require("../dist/server");
   var debug = require("debug")("express:server");
   var http = require("http");
+  require('dotenv').config();
 
   //create http server
   var httpPort = normalizePort(process.env.PORT || 8080);

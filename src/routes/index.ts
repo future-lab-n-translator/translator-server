@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { BaseRoute } from "./route";
-
+import { detectLanguage } from '../controllers/apiController';
 
 /**
  * / route
@@ -23,6 +23,13 @@ export class IndexRoute extends BaseRoute {
     //add home page route
     router.get("/", (req: Request, res: Response, next: NextFunction) => {
       new IndexRoute().index(req, res, next);
+    });
+
+    router.post("/", (req: Request, res: Response, next: NextFunction) => {
+       console.log(req.body.q);
+       detectLanguage(req.body.q, (result) => {
+         res.send(result);
+       });
     });
   }
 
