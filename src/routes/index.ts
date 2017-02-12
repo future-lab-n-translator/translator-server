@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { BaseRoute } from "./route";
-import { detectLanguage } from '../controllers/apiController';
+import { detectLanguage, translateLanguage } from '../controllers/apiController';
 
 /**
  * / route
@@ -27,8 +27,17 @@ export class IndexRoute extends BaseRoute {
 
     router.post("/", (req: Request, res: Response, next: NextFunction) => {
        console.log(req.body.q);
-       detectLanguage(req.body.q, (result) => {
-         res.send(result);
+       detectLanguage(req.body, (err, result) => {
+         if(err){
+           res.send('error in detecting language');
+         }
+         var source = result.data.detections[0][0].language;
+         translateLanguage(req.body, source, (err, result) => {
+           if(err){
+             res.send('error in translate language');
+           }
+           res.send(result);
+         })
        });
     });
   }

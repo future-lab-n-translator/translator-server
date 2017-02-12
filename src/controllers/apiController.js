@@ -7,11 +7,10 @@
      */
 const request = require('request');
 
-export const detectLanguage = (input, callback) => {
-  console.log(process.env.GOOGLE_API_KEY);
+export const detectLanguage = (inputObj, callback) => {
 
   const queryStringObj = {
-      q: input,
+      q: inputObj.q,
       key: 'AIzaSyDG_xmvkkjA3GB6Hx_iwMYv7TBHBWPGkM8'
   };
   
@@ -20,10 +19,30 @@ export const detectLanguage = (input, callback) => {
       qs: queryStringObj,
       method: 'GET'
   }, (err, response, body) => {
-      callback(JSON.parse(body));
+      if(err){
+          callback(err);
+      }
+      callback(null, JSON.parse(body));
   });
 }
 
-export const test = (req, res) => {
-    res.send('nice test');
+export const translateLanguage = (inputObj, source, callback) => {
+    console.log('hello', inputObj);
+    const queryStringObj = {
+        q: inputObj.q,
+        key: 'AIzaSyDG_xmvkkjA3GB6Hx_iwMYv7TBHBWPGkM8',
+        target: inputObj.target,
+        source: source
+    };
+    console.log('cool');
+    request({
+      url: 'https://www.googleapis.com/language/translate/v2',
+      qs: queryStringObj,
+      method: 'GET'
+    }, (err, response, body) => {
+        if(err){
+            callback(err);
+        }
+        callback(null, JSON.parse(body));
+    });
 }
